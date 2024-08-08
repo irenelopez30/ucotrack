@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Seguimientos {
+  id          String   @id @db.VarChar(255)
+  id_tfg      String   @db.VarChar(255)
+  fecha       DateTime @db.Date
+  informacion String?  @db.Text
+  TFG         TFG      @relation(fields: [id_tfg], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Seguimientos_ibfk_1")
+
+  @@index([id_tfg], map: "id_tfg")
+}
+
+model TFG {
+  id              String         @id @db.VarChar(255)
+  id_profesor     String         @db.VarChar(255)
+  titulo          String         @db.VarChar(255)
+  a_o_academico   String         @map("año_academico") @db.VarChar(10)
+  descripcion     String?        @db.Text
+  nombre_alumno   String         @db.VarChar(255)
+  correo_alumno   String?        @db.VarChar(255)
+  telefono_alumno String?        @db.VarChar(20)
+  estado          String         @db.VarChar(20)
+  Seguimientos    Seguimientos[]
+  Usuarios        Usuarios       @relation(fields: [id_profesor], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "TFG_ibfk_1")
+
+  @@index([id_profesor], map: "id_profesor")
+}
+
+model Usuarios {
+  id         String @id @db.VarChar(255)
+  nombre     String @db.VarChar(255)
+  correo     String @db.VarChar(255)
+  contrase_a String @map("contraseña") @db.VarChar(255)
+  TFG        TFG[]
+}

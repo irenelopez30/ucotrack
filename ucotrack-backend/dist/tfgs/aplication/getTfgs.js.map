@@ -1,0 +1,1 @@
+{"version":3,"file":"getTfgs.js","sourceRoot":"","sources":["../../../src/tfgs/aplication/getTfgs.ts"],"names":[],"mappings":";;;AAEA,MAAa,OAAO;IAElB,YAAoB,UAAyB;QAAzB,eAAU,GAAV,UAAU,CAAe;IAAG,CAAC;IAEjD,KAAK,CAAC,OAAO,CAAC,UAAkB;QAC9B,OAAO,MAAM,IAAI,CAAC,UAAU,CAAC,OAAO,CAAC,UAAU,CAAC,CAAC;IACnD,CAAC;CACF;AAPD,0BAOC;AAED,kBAAe,OAAO,CAAC"}
