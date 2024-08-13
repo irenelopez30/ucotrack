@@ -23,7 +23,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [authState, setAuthState] = useState<AuthState>(defaultAuthState);
 
   useEffect(() => {
-    // Cargar el token desde localStorage cuando la aplicación se monta
     const token = localStorage.getItem('token');
     if (token) {
       setAuthState({ token });

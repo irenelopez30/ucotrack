@@ -9,7 +9,6 @@ export class Email {
     }
 
     private isValidEmail(value: string): boolean {
-        // Verifica que la cadena sea una dirección de correo electrónico válida
         const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         return regex.test(value);
     }    

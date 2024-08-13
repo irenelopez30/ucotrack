@@ -33,7 +33,7 @@ export class TfgController implements TfgRepository {
                     correo_alumno: tfg.correo_alumno,
                     telefono_alumno: tfg.telefono_alumno,
                     estado: tfg.estado,
-                    id: tfg.id // Incluye el id si es necesario (depende de cómo lo maneje Prisma)
+                    id: tfg.id 
                 }
             });
             return this.mapDbToDomain(createdTfg);

@@ -48,7 +48,6 @@ const Registro = () => {
         <div className="w-full max-w-md space-y-6">
           <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4">Registrarse</h2>
-            {/* Mostrar el mensaje si existe */}
             {mensaje && (
               <div className={`mb-4 p-2 rounded-md border ${tipoMensaje === 'exito' ? 'bg-green-100 text-green-700 border-green-200' : 'bg-red-100 text-red-700 border-red-200'}`}>
                 {mensaje}

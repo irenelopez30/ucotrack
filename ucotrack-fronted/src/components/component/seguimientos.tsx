@@ -89,7 +89,7 @@ export function Seguimientos({ id }: SeguimientoProps) {
     try {
       const idNota = uuidv4();
       const now = new Date();
-      const formattedDate = now.toISOString(); // YYYY-MM-DDTHH:MM:SSZ
+      const formattedDate = now.toISOString(); 
 
       const response = await fetch(`http://localhost:3001/api/tfg/notes/${id}`, {
         method: 'POST',

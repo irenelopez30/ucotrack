@@ -9,7 +9,7 @@ export function Sesion() {
   const [contraseña, setPassword] = useState('');
   const [mensaje, setMensaje] = useState<string | null>(null);
   const [tipoMensaje, setTipoMensaje] = useState<'exito' | 'error' | null>(null);
-  const router = useRouter(); // Usar useRouter para redirigir
+  const router = useRouter(); 
 
 
   const { authState, setUserAuthInfo } = useAuth(); 

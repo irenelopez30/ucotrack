@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import "./globals.css";
 import { AuthProvider, useAuth } from "@/components/ProtectedRoutes/ProtectedRoutes";
 import Header from "@/components/Header/Header";
-import { Footer } from "@/components/Footer/Footer";  // Importa el Footer
+import { Footer } from "@/components/Footer/Footer";  
 
 const inter = Inter({ subsets: ["latin"] });
 

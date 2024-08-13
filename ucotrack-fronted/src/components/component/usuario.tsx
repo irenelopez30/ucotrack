@@ -1,4 +1,3 @@
-// "use client"; // Ya estás en el cliente en un componente de Next.js
 
 import React from 'react';
 import Link from "next/link";

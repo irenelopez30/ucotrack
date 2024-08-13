@@ -27,7 +27,7 @@ export function Crear() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validar que los campos "Estado" y "Año Académico" no estén vacíos
+   
     if (!estado || !añoAcademico) {
       setMensaje('Por favor, selecciona un estado y un año académico.');
       return;
@@ -68,13 +68,12 @@ export function Crear() {
 
   const currentYear = new Date().getFullYear();
 
-  // Crear las opciones para los 3 años anteriores y 3 años posteriores
   const optionsAñoAcademico = Array.from({ length: 7 }, (_, index) => {
     const year = currentYear - 3 + index;
     return { value: `${year}-${year + 1}`, label: `${year}-${year + 1}` };
   });
 
-  // Opciones para el Select de Estado
+
   const optionsEstado = [
     { value: 'pending', label: 'Pendiente de petición' },
     { value: 'approved', label: 'Petición aprobada' },

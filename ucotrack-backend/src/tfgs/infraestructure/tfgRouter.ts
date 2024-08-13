@@ -18,7 +18,7 @@ const createTfg = new CreateTfg(tfgController);
 const deleteTfgById = new DeleteTfgById(tfgController);
 const getTfg = new GetTfg(tfgController);
 const getTfgs = new GetTfgs(tfgController);
-const modifyTfg = new ModifyTfg(tfgController); // Instancia de la clase ModifyTfg
+const modifyTfg = new ModifyTfg(tfgController); 
 
 router.get('/', async (req: Request, res: Response) => {
     const jwt = req.headers.authorization.split(' ')[1];

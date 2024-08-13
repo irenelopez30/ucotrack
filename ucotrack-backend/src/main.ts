@@ -3,11 +3,10 @@ import cors from "cors";
 import userRouter from "./usuarios/infraestructure/usuarioRouter";
 import tfgRouter from "./tfgs/infraestructure/TFGRouter";
 
-//require("dotenv").config();
 
 async function bootstrap(){
     const app = express();
-    const port = process.env.PORT || 3001;  //cambiado del 3000 al 3001
+    const port = process.env.PORT || 3001;  
     const env= process.env.NODE_ENV || "development";
     
     app.use(cors());

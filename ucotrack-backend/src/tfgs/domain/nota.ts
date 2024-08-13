@@ -1,5 +1,4 @@
 export class Nota{
-    // id id_tfg , fecha, informacion
     id: string;
     id_tfg: string;
     fecha: Date;

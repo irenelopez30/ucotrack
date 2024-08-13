@@ -14,8 +14,8 @@ interface EditarProps {
 
 const generateAcademicYearOptions = () => {
   const currentYear = new Date().getFullYear();
-  const startYear = currentYear - 3; // Tres años anteriores
-  const endYear = currentYear + 3; // Tres años siguientes
+  const startYear = currentYear - 3; 
+  const endYear = currentYear + 3; 
   const options = [];
 
   for (let year = startYear; year <= endYear; year++) {
@@ -92,7 +92,7 @@ export function Editar({ id }: EditarProps) {
 
   const handleSave = async () => {
     try {
-      // Verificar si el año académico ingresado es válido
+  
       const isValidYear = optionsAñoAcademico.some(option => option.value === añoAcademico);
       if (!isValidYear) {
         setMensaje('El año académico ingresado no es válido.');

@@ -1,13 +1,11 @@
-// app/api/auth/[...nextauth]/route.js
+
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 const options = {
   providers: [
     CredentialsProvider({
-      // Aquí defines tu lógica de autenticación
       async authorize(credentials) {
-        // Simulación de un usuario (deberías usar una base de datos real)
         const user = { id: 1, name: 'User', email: 'user@example.com' };
 
         if (user) {
@@ -35,7 +33,6 @@ const options = {
   },
 };
 
-// Asignar la función a una variable antes de exportar
 const authHandler = (req, res) => NextAuth(req, res, options);
 
 export default authHandler;
