@@ -173,7 +173,7 @@ export function Listar() {
           <div className="flex items-center justify-between mb-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="bg-white dark:bg-gray-950" variant="outline">
+                <Button className="bg-white dark:bg-gray-950">
                   {getEstadoLabel(selectedEstado)}
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
@@ -206,15 +206,15 @@ export function Listar() {
                 </div>
                 <div className="flex justify-between mt-6">
                   <Link href={`/tfg/editar/${tfg.id}`} passHref>
-                    <Button variant="outline">Editar</Button>
+                    <Button>Editar</Button>
                   </Link>
                   <Link href={`/tfg/seguimientos/${tfg.id}`} passHref>
-                    <Button variant="outline" className="p-3">
+                    <Button className="p-3">
                       <Image title="Notas" src="/notes.svg" alt="Notas" width={25} height={25} />Notas
                     </Button>
                   </Link>
 
-                  <Button variant="outline" onClick={() => handleOpenModal(tfg.id)}>Borrar</Button>
+                  <Button onClick={() => handleOpenModal(tfg.id)}>Borrar</Button>
                 </div>
               </div>
             ))}
