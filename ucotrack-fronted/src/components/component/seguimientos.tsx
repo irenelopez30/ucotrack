@@ -1,9 +1,8 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardTitle, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../ProtectedRoutes/ProtectedRoutes';
 import { v4 as uuidv4 } from 'uuid';
@@ -29,10 +28,14 @@ export function Seguimientos({ id }: SeguimientoProps) {
   const [mensaje, setMensaje] = useState('');
   const [notas, setNotas] = useState<Nota[]>([]);
   const [tfgInfo, setTfgInfo] = useState<TfgInfo | null>(null);
+  const [fechaNota, setFechaNota] = useState(() => new Date().toISOString().split('T')[0]); // Fecha del sistema por defecto
 
   const router = useRouter();
   const { authState } = useAuth();
   const { token } = authState;
+
+  // Obtiene la fecha actual
+  const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const fetchNotas = async () => {
@@ -86,10 +89,17 @@ export function Seguimientos({ id }: SeguimientoProps) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const now = new Date();
+    const selectedDate = new Date(fechaNota);
+
+    if (selectedDate > now) {
+      setMensaje('La fecha no puede ser futura');
+      return;
+    }
+
     try {
       const idNota = uuidv4();
-      const now = new Date();
-      const formattedDate = now.toISOString(); 
+      const formattedDate = selectedDate.toISOString();
 
       const response = await fetch(`http://localhost:3001/api/tfg/notes/${id}`, {
         method: 'POST',
@@ -158,7 +168,7 @@ export function Seguimientos({ id }: SeguimientoProps) {
   const sortedNotas = notas.sort((a, b) => {
     const dateA = new Date(a.fecha);
     const dateB = new Date(b.fecha);
-    return dateB.getTime() - dateA.getTime();
+    return dateA.getTime() - dateB.getTime();
   });
 
   const formatDate = (date: string) => {
@@ -199,6 +209,13 @@ export function Seguimientos({ id }: SeguimientoProps) {
                   placeholder="Agregar una nota..."
                   value={nota}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNota(e.target.value)}
+                  required
+                />
+                <Input
+                  type="date"
+                  value={fechaNota}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFechaNota(e.target.value)}
+                  max={today} // Limita la fecha máxima al día actual
                   required
                 />
                 <Button type="submit">+</Button>
