@@ -1,6 +1,1 @@
-{
-  "/page": "app/page.js",
-  "/registro/page": "app/registro/page.js",
-  "/sesion/page": "app/sesion/page.js",
-  "/usuario/page": "app/usuario/page.js"
-}
+{}
