@@ -9,6 +9,26 @@ import { useAuth } from '../ProtectedRoutes/ProtectedRoutes';
 import { v4 as uuidv4, validate } from 'uuid';
 import Image from 'next/image';
 
+// Definición del componente ChevronDownIcon
+function ChevronDownIcon(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
 class Tfg {
   id: string;
   id_profesor: string;
@@ -173,7 +193,7 @@ export function Listar() {
           <div className="flex items-center justify-between mb-4">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="bg-white dark:bg-gray-950">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 focus:bg-blue-700 border border-blue-700">
                   {getEstadoLabel(selectedEstado)}
                   <ChevronDownIcon className="ml-2 h-4 w-4" />
                 </Button>
@@ -228,31 +248,12 @@ export function Listar() {
             <h2 className="text-lg font-bold">Confirmar Eliminación</h2>
             <p>¿Estás seguro de que deseas eliminar el TFG seleccionado?</p>
             <div className="flex justify-end space-x-2 mt-4">
-              <Button onClick={handleDelete} >Eliminar</Button>
+              <Button onClick={handleDelete}>Eliminar</Button>
               <Button onClick={handleCloseModal}>Cancelar</Button>
             </div>
           </div>
         </div>
       )}
     </div>
-  );
-}
-
-function ChevronDownIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
   );
 }

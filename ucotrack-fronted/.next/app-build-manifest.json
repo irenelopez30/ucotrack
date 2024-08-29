@@ -16,6 +16,11 @@
       "static/chunks/main-app.js",
       "static/chunks/app/sesion/page.js"
     ],
+    "/registro/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/registro/page.js"
+    ],
     "/usuario/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -26,25 +31,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/tfg/listar/page.js"
     ],
-    "/tfg/seguimientos/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/tfg/seguimientos/[id]/page.js"
-    ],
-    "/registro/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/registro/page.js"
-    ],
     "/tfg/crear/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/tfg/crear/page.js"
     ],
-    "/_not-found/page": [
+    "/tfg/editar/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/tfg/editar/[id]/page.js"
+    ],
+    "/tfg/seguimientos/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tfg/seguimientos/[id]/page.js"
     ]
   }
 }

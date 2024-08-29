@@ -1,10 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
   "/sesion/page": "app/sesion/page.js",
-  "/usuario/page": "app/usuario/page.js",
   "/tfg/listar/page": "app/tfg/listar/page.js",
-  "/tfg/seguimientos/[id]/page": "app/tfg/seguimientos/[id]/page.js",
-  "/registro/page": "app/registro/page.js",
   "/tfg/crear/page": "app/tfg/crear/page.js",
+  "/tfg/seguimientos/[id]/page": "app/tfg/seguimientos/[id]/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js"
 }
