@@ -22,6 +22,10 @@ export async function POST(req: NextRequest) {
 
    
     const fileExtension = path.extname(file.name); 
+
+    if(fileExtension !== '.pdf') {
+      return NextResponse.json({ error: 'Solo se permiten archivos PDF' }, { status: 400 });
+    }
     const filePath = path.join(uploadDir, `${tfgId}${fileExtension}`);
 
 

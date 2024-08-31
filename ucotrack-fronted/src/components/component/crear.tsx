@@ -44,6 +44,12 @@ export function Crear() {
   
     try {
       if (file) {
+        // Validate file type
+        if (file.type !== 'application/pdf') {
+          setMensaje('El archivo debe ser un PDF.');
+          return;
+        }
+
         const uploadData = new FormData();
         uploadData.append('id', tfgId);
         uploadData.append('file', file);
@@ -102,6 +108,20 @@ export function Crear() {
     { value: 'submitted', label: 'Entregado' },
     { value: 'presented', label: 'Presentado' }
   ];
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      // Validate file type
+      if (file.type !== 'application/pdf') {
+        setMensaje('El archivo debe ser un PDF.');
+        return;
+      }
+    }
+
+    setFile(file);
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -190,8 +210,8 @@ export function Crear() {
               <Input
                 id="file"
                 type="file"
-                accept=".pdf,.doc,.docx"
-                onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+                accept=".pdf"
+                onChange={handleFileChange}
               />
             </div>
             <CardFooter className="justify-end">

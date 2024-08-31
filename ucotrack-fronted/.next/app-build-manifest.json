@@ -35,6 +35,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/tfg/editar/[id]/page.js"
+    ],
+    "/tfg/seguimientos/[id]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/tfg/seguimientos/[id]/page.js"
     ]
   }
 }

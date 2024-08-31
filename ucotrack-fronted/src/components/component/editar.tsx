@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import Select from 'react-select';
 import { useRouter } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
 
 interface EditarProps {
   id: string;
@@ -49,6 +50,8 @@ export function Editar({ id }: EditarProps) {
   const [estado, setEstado] = useState('');
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(true);
+  const [file, setFile] = useState<File | null>(null); // State to store the file
+  const [fileError, setFileError] = useState<string | null>(null); // State to store file error message
   const router = useRouter();
 
   useEffect(() => {
@@ -88,11 +91,10 @@ export function Editar({ id }: EditarProps) {
     if (id) {
       fetchTFG();
     }
-  }, [id]); 
+  }, [id]);
 
   const handleSave = async () => {
     try {
-  
       const isValidYear = optionsAñoAcademico.some(option => option.value === añoAcademico);
       if (!isValidYear) {
         setMensaje('El año académico ingresado no es válido.');
@@ -123,11 +125,61 @@ export function Editar({ id }: EditarProps) {
         throw new Error('Error al actualizar el TFG');
       }
 
+      if (file) {
+        const uploadData = new FormData();
+        uploadData.append('id', tfg.id);
+        uploadData.append('file', file);
+  
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadData,
+        });
+
+        if (!uploadResponse.ok) {
+          throw new Error('Error al subir el nuevo anteproyecto');
+        }
+      }
+
       setMensaje('TFG actualizado correctamente');
       router.push('/tfg/listar');
     } catch (error) {
       setMensaje('Error al actualizar el TFG');
       console.error('Error:', error);
+    }
+  };
+
+  const handleDeleteFile = async () => {
+    try {
+      const response = await fetch('/api/delete', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify({ tfgId: id }), 
+      });
+  
+      if (!response.ok) {
+        throw new Error('Error al eliminar el anteproyecto');
+      }
+  
+      setMensaje('Anteproyecto eliminado correctamente');
+      setFile(null);
+  
+    } catch (error) {
+      setMensaje('Error al eliminar el anteproyecto');
+      console.error('Error:', error);
+    }
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files ? e.target.files[0] : null;
+    if (selectedFile && selectedFile.type !== 'application/pdf') {
+      setFileError('Solo se permiten archivos PDF.');
+      setFile(null);
+    } else {
+      setFileError(null);
+      setFile(selectedFile);
     }
   };
 
@@ -138,7 +190,19 @@ export function Editar({ id }: EditarProps) {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Editar TFG</h1>
-      {mensaje && <p>{mensaje}</p>}
+      {mensaje && (
+        <div
+          className={`p-4 mb-4 text-sm rounded-lg ${
+            mensaje.includes('correctamente')
+              ? 'text-green-800 bg-green-100'
+              : 'text-red-800 bg-red-100'
+          }`}
+          role="alert"
+        >
+          {mensaje}
+        </div>
+      )}
+
       {tfg && (
         <div className="space-y-4">
           <div className="space-y-2">
@@ -209,6 +273,19 @@ export function Editar({ id }: EditarProps) {
                 onChange={(option: any) => setEstado(option.value)}
               />
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="file">Anteproyecto</Label>
+            <Input
+              id="file"
+              type="file"
+              accept=".pdf" // Only allow PDF files
+              onChange={handleFileChange}
+            />
+            {fileError && (
+              <p className="text-red-500">{fileError}</p>
+            )}
+            <Button onClick={handleDeleteFile}>Eliminar Anteproyecto</Button>
           </div>
           <Button onClick={handleSave}>Guardar Cambios</Button>
         </div>
