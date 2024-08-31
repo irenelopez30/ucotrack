@@ -9,7 +9,6 @@ import { useAuth } from '../ProtectedRoutes/ProtectedRoutes';
 import { v4 as uuidv4, validate } from 'uuid';
 import Image from 'next/image';
 
-// Definición del componente ChevronDownIcon
 function ChevronDownIcon(props: any) {
   return (
     <svg
@@ -182,6 +181,7 @@ export function Listar() {
 
   const filteredTfgs = selectedEstado === 'all' ? tfgs : tfgs.filter(tfg => tfg.estado === selectedEstado);
 
+
   return (
     <div className="w-full max-w-4xl mx-auto">
       <Card>
@@ -219,6 +219,12 @@ export function Listar() {
                   <h3 className="text-2xl font-semibold text-gray-800">{tfg.titulo} <span className="text-lg text-gray-500">({tfg.año_academico})</span></h3>
                   <span className={`px-3 py-1 rounded-full text-sm font-medium ${getEstadoColor(tfg.estado)}`}>{getEstadoLabel(tfg.estado)}</span>
                 </div>
+                  <a href={`/uploads/${tfg.id}.pdf`} 
+                    className="text-blue-500 hover:underline mt-4 inline-block"
+                    target="_blank" 
+                    rel="noopener noreferrer">
+                    Ver anteproyecto
+                  </a>
                 <p className="mt-4 text-gray-700 leading-relaxed">{tfg.descripcion}</p>
                 <div className="mt-6 text-gray-600">
                   <p>De <strong className="text-gray-800">{tfg.nombre_alumno}</strong></p>

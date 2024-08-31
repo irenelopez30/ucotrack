@@ -9,7 +9,7 @@ export class Tfg {
   nombre_alumno: string;
   correo_alumno: string;
   telefono_alumno: string;
-  estado: string;
+  estado: string; 
 
   constructor(
     id_profesor: string,

@@ -1,14 +1,21 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
-import { Card, CardTitle, CardDescription, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
+import { useRouter } from 'next/navigation';
+import { v4 as uuid4 } from 'uuid';
+import {
+  Card,
+  CardTitle,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  CardFooter
+} from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import Select from 'react-select';
-import { v4 as uuid4 } from 'uuid';
 import { useAuth } from '../ProtectedRoutes/ProtectedRoutes';
-import { useRouter } from 'next/navigation';
 
 export function Crear() {
   const [titulo, setTitulo] = useState('');
@@ -18,6 +25,7 @@ export function Crear() {
   const [correoAlumno, setCorreoAlumno] = useState('');
   const [telefonoAlumno, setTelefonoAlumno] = useState('');
   const [estado, setEstado] = useState('');
+  const [file, setFile] = useState<File | null>(null);
   const [mensaje, setMensaje] = useState('');
 
   const router = useRouter();
@@ -26,21 +34,37 @@ export function Crear() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-   
+  
     if (!estado || !añoAcademico) {
       setMensaje('Por favor, selecciona un estado y un año académico.');
       return;
     }
-
+  
+    const tfgId = uuid4(); 
+  
     try {
+      if (file) {
+        const uploadData = new FormData();
+        uploadData.append('id', tfgId);
+        uploadData.append('file', file);
+  
+        const uploadResponse = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadData,
+        });
+  
+        if (!uploadResponse.ok) {
+          throw new Error('Error al subir el archivo');
+        }
+      }
+
       const response = await fetch('http://localhost:3001/api/tfg/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: uuid4(),
+          id: tfgId,
           id_profesor: token,
           titulo,
           año_academico: añoAcademico,
@@ -48,16 +72,14 @@ export function Crear() {
           nombre_alumno: nombreAlumno,
           correo_alumno: correoAlumno,
           telefono_alumno: telefonoAlumno,
-          estado,
+          estado
         }),
       });
-
+  
       if (!response.ok) {
-        console.log(response);
         throw new Error('Error al crear el TFG');
       }
-
-      const data = await response.json();
+  
       setMensaje('TFG creado correctamente');
       router.push('/tfg/listar');
     } catch (error) {
@@ -73,7 +95,6 @@ export function Crear() {
     return { value: `${year}-${year + 1}`, label: `${year}-${year + 1}` };
   });
 
-
   const optionsEstado = [
     { value: 'pending', label: 'Pendiente de petición' },
     { value: 'approved', label: 'Petición aprobada' },
@@ -84,95 +105,104 @@ export function Crear() {
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-    <Card className="w-full max-w-2xl">
-      <CardHeader>
-        <CardTitle>Crear Trabajo de Fin de Grado</CardTitle>
-        <CardDescription>Completa el formulario para crear un nuevo TFG.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <form onSubmit={handleSubmit}>
-          <div className="grid grid-cols-2 gap-4">
+      <Card className="w-full max-w-2xl">
+        <CardHeader>
+          <CardTitle>Crear Trabajo de Fin de Grado</CardTitle>
+          <CardDescription>Completa el formulario para crear un nuevo TFG.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-6">
+          <form onSubmit={handleSubmit}>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="title">Título</Label>
+                <Input
+                  id="title"
+                  placeholder="Ingresa el título del TFG"
+                  required
+                  value={titulo}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitulo(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="year">Año Académico</Label>
+                <Select
+                  options={optionsAñoAcademico}
+                  value={optionsAñoAcademico.find(option => option.value === añoAcademico)}
+                  onChange={(option: any) => setAñoAcademico(option.value)}
+                  required
+                />
+              </div>
+            </div>
             <div className="space-y-2">
-              <Label htmlFor="title">Título</Label>
+              <Label htmlFor="description">Descripción</Label>
+              <Textarea
+                id="description"
+                placeholder="Describe el TFG"
+                value={descripcion}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescripcion(e.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="student-name">Nombre del Alumno</Label>
+                <Input
+                  id="student-name"
+                  placeholder="Ingresa el nombre del alumno"
+                  required
+                  value={nombreAlumno}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNombreAlumno(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="student-email">Correo Electrónico</Label>
+                <Input
+                  id="student-email"
+                  placeholder="Ingresa el correo electrónico"
+                  type="email"
+                  value={correoAlumno}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCorreoAlumno(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="student-phone">Teléfono</Label>
+                <Input
+                  id="student-phone"
+                  placeholder="Ingresa el número de teléfono"
+                  type="tel"
+                  value={telefonoAlumno}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefonoAlumno(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="status">Estado</Label>
+                <Select
+                  options={optionsEstado}
+                  value={optionsEstado.find(option => option.value === estado)}
+                  onChange={(option: any) => setEstado(option.value)}
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="file">Anteproyecto</Label>
               <Input
-                id="title"
-                placeholder="Ingresa el título del TFG"
-                required
-                value={titulo}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitulo(e.target.value)}
+                id="file"
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="year">Año Académico</Label>
-              <Select
-                options={optionsAñoAcademico}
-                value={optionsAñoAcademico.find(option => option.value === añoAcademico)}
-                onChange={(option: any) => setAñoAcademico(option.value)}
-                required
-              />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Descripción</Label>
-            <Textarea
-              id="description"
-              placeholder="Describe el TFG"
-              value={descripcion}
-              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescripcion(e.target.value)}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="student-name">Nombre del Alumno</Label>
-              <Input
-                id="student-name"
-                placeholder="Ingresa el nombre del alumno"
-                required
-                value={nombreAlumno}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNombreAlumno(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="student-email">Correo Electrónico</Label>
-              <Input
-                id="student-email"
-                placeholder="Ingresa el correo electrónico"
-                type="email"
-                value={correoAlumno}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setCorreoAlumno(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="student-phone">Teléfono</Label>
-              <Input
-                id="student-phone"
-                placeholder="Ingresa el número de teléfono"
-                type="tel"
-                value={telefonoAlumno}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTelefonoAlumno(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="status">Estado</Label>
-              <Select
-                options={optionsEstado}
-                value={optionsEstado.find(option => option.value === estado)}
-                onChange={(option: any) => setEstado(option.value)}
-                required
-              />
-            </div>
-          </div>
-          <CardFooter className="justify-end">
-            <Button type="submit">Crear TFG</Button>
-          </CardFooter>
-        </form>
-        {mensaje && (
-          <p className="text-center text-sm text-red-500 mt-2">{mensaje}</p>
-        )}
-      </CardContent>
-    </Card>
+            <CardFooter className="justify-end">
+              <Button type="submit">Crear TFG</Button>
+            </CardFooter>
+          </form>
+          {mensaje && (
+            <p className="text-center text-sm text-red-500 mt-2">{mensaje}</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
