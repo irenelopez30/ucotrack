@@ -1,9 +1,8 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/sesion/page": "app/sesion/page.js",
-  "/tfg/listar/page": "app/tfg/listar/page.js",
+  "/usuario/page": "app/usuario/page.js",
   "/tfg/crear/page": "app/tfg/crear/page.js",
+  "/tfg/listar/page": "app/tfg/listar/page.js",
   "/tfg/editar/[id]/page": "app/tfg/editar/[id]/page.js",
-  "/api/delete/route": "app/api/delete/route.js",
-  "/tfg/seguimientos/[id]/page": "app/tfg/seguimientos/[id]/page.js"
+  "/api/upload/route": "app/api/upload/route.js"
 }
